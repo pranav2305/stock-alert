@@ -6,10 +6,7 @@ import smtplib
 import pandas as pd
 from datetime import datetime, time, timedelta
 from time import sleep, process_time
-from config import FROM_ADDRESS, EMAIL_PASSWORD, TO_ADDRESSES, FREQUENCY
-
-GOOGLE_CHROME_BIN = '/usr/bin/google-chrome'
-CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
+from config import FROM_ADDRESS, EMAIL_PASSWORD, TO_ADDRESSES, FREQUENCY, GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
