@@ -6,12 +6,14 @@ import smtplib
 import pandas as pd
 from datetime import datetime, time, timedelta
 from time import sleep, process_time
-from config import FROM_ADDRESS, EMAIL_PASSWORD, TO_ADDRESSES, FREQUENCY, GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH
+from config import FROM_ADDRESS, EMAIL_PASSWORD, TO_ADDRESSES, FREQUENCY, GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH, DISABLE_GPU
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
+if DISABLE_GPU:
+    chrome_options.add_argument('--disable-gpu')
 chrome_options.binary_location = GOOGLE_CHROME_BIN
 driver = webdriver.Chrome(
         executable_path=str(CHROMEDRIVER_PATH),
