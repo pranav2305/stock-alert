@@ -24,7 +24,7 @@ driver = webdriver.Chrome(
 driver.set_page_load_timeout(60)
 
 logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.CRITICAL)
 
 def is_time_between(begin_time, end_time, check_time=None):
     check_time = check_time or datetime.utcnow().time()
