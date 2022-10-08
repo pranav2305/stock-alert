@@ -39,7 +39,9 @@ def sleepUntil(hour, minute):
     if t.timestamp() > future.timestamp():
         future += timedelta(days=1)
     if future.weekday() > 4:
-            future += timedelta(days=7-future.weekday())
+        print("Enjoy your weekend!")
+        future += timedelta(days=7-future.weekday())
+    print("Sleeping until " + str(future))
     sleep((future - t).seconds)
 
 def scrape(url):
@@ -119,6 +121,7 @@ while True:
     check_announcements()
     print('Execution time: {}\n'.format(process_time() - start_time))
     if is_time_between(time(9, 0), time(16, 0)):
+        print('Sleeping for {} minutes'.format(FREQUENCY / 60))
         sleep(FREQUENCY)
     else:
         # sleep until 9:00 am and skip weekends
