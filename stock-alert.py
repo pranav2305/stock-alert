@@ -7,24 +7,24 @@ import pandas as pd
 from datetime import datetime, time, timedelta
 from time import sleep, process_time
 from config import FROM_ADDRESS, EMAIL_PASSWORD, TO_ADDRESSES, FREQUENCY, GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH, DISABLE_GPU
-import logging
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument("--disable-in-process-stack-traces");
+options.add_argument("--disable-logging");
+options.add_argument("--log-level=3");
+options.add_argument("--output=/dev/null");
 if DISABLE_GPU:
-    chrome_options.add_argument('--disable-gpu')
-chrome_options.binary_location = GOOGLE_CHROME_BIN
+    options.add_argument('--disable-gpu')
+options.binary_location = GOOGLE_CHROME_BIN
 driver = webdriver.Chrome(
         executable_path=str(CHROMEDRIVER_PATH),
-        chrome_options=chrome_options,
+        options=options,
     )
 
 driver.set_page_load_timeout(60)
-
-logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
-logger.setLevel(logging.CRITICAL)
 
 def is_time_between(begin_time, end_time, check_time=None):
     check_time = check_time or datetime.utcnow().time()
