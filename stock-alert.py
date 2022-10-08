@@ -7,6 +7,7 @@ import pandas as pd
 from datetime import datetime, time, timedelta
 from time import sleep, process_time
 from config import FROM_ADDRESS, EMAIL_PASSWORD, TO_ADDRESSES, FREQUENCY, GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH, DISABLE_GPU
+import logging
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
@@ -21,6 +22,9 @@ driver = webdriver.Chrome(
     )
 
 driver.set_page_load_timeout(60)
+
+logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
+logger.setLevel(logging.ERROR)
 
 def is_time_between(begin_time, end_time, check_time=None):
     check_time = check_time or datetime.utcnow().time()
