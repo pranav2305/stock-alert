@@ -93,7 +93,7 @@ def check_announcements():
             num, date = num_text.split(',')
             num = int(num)
             if date != datetime.now().strftime('%d-%m-%Y'):
-                num = 0
+                num = 1
             with open('report_num.txt', 'w') as f:
                 f.write(str(num+1) + ',' + datetime.now().strftime('%d-%m-%Y'))
             subject = 'Report {} - {}'.format(num, datetime.now().strftime('%d-%m-%Y'))
