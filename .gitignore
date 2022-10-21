@@ -1,6 +1,7 @@
 config.py
 stock_list.csv
 db/
+report_num.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

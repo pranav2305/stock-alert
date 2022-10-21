@@ -27,7 +27,7 @@ driver = webdriver.Chrome(
 driver.set_page_load_timeout(60)
 
 def is_time_between(begin_time, end_time, check_time=None):
-    check_time = check_time or datetime.utcnow().time()
+    check_time = check_time or datetime.now().time()
     if begin_time < end_time:
         return check_time >= begin_time and check_time <= end_time
     else:
@@ -65,7 +65,7 @@ def check_announcements():
             if table:
                 links = table.find_all('a')
                 try:
-                    df = pd.read_csv('db/{}.csv'.format(row[1]))
+                    df = pd.read_csv('db/{}.csv'.format(row[0]))
                     for link in links:
                         if link.text and link.get('href') not in df['link'].values:
                             if not hasNew:
@@ -74,7 +74,7 @@ def check_announcements():
                             df_new_row = pd.DataFrame([[link.text, link.get('href')]], columns=['title', 'link'])
                             df = pd.concat([df, df_new_row])
                             body += link.text + ' - ' + "https://www.bseindia.com" + link.get('href') + '\n'
-                            df.to_csv('db/{}.csv'.format(row[1]), index=False)
+                            df.to_csv('db/{}.csv'.format(row[0]), index=False)
                 except:
                     if links and len(links) > 0:
                         hasNew = True
