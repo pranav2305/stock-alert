@@ -59,37 +59,40 @@ def check_announcements():
     body = ''
     for index, row in df.iterrows():
         if type(row[1]) == str: 
-            soup = scrape(row[1])
-            table = soup.find('div', attrs={'id':'news'})
-            hasNew = False
-            if table:
-                links = table.find_all('a')
-                try:
-                    df = pd.read_csv('db/{}.csv'.format(row[0]))
-                    for link in links:
-                        if link.text and link.get('href') not in df['link'].values:
-                            if not hasNew:
-                                body += row[0] + ':\n'
-                                hasNew = True
-                            df_new_row = pd.DataFrame([[link.text, link.get('href')]], columns=['title', 'link'])
-                            df = pd.concat([df, df_new_row])
-                            body += link.text + ' - ' + "https://www.bseindia.com" + link.get('href') + '\n'
-                            df.to_csv('db/{}.csv'.format(row[0]), index=False)
-                except:
-                    if links and len(links) > 0:
-                        hasNew = True
-                        body += row[0] + ':\n'
-                        df = {
-                            'title': [],
-                            'link': []
-                        }
+            try:
+                soup = scrape(row[1])
+                table = soup.find('div', attrs={'id':'news'})
+                hasNew = False
+                if table:
+                    links = table.find_all('a')
+                    try:
+                        df = pd.read_csv('db/{}.csv'.format(row[0]))
                         for link in links:
-                            if (link.text):
-                                df['title'].append(link.text)
-                                df['link'].append(link.get('href'))
+                            if link.text and link.get('href') not in df['link'].values:
+                                if not hasNew:
+                                    body += row[0] + ':\n'
+                                    hasNew = True
+                                df_new_row = pd.DataFrame([[link.text, link.get('href')]], columns=['title', 'link'])
+                                df = pd.concat([df, df_new_row])
                                 body += link.text + ' - ' + "https://www.bseindia.com" + link.get('href') + '\n'
-                        df = pd.DataFrame(df)
-                        df.to_csv('db/{}.csv'.format(row[0]), index=False)
+                                df.to_csv('db/{}.csv'.format(row[0]), index=False)
+                    except:
+                        if links and len(links) > 0:
+                            hasNew = True
+                            body += row[0] + ':\n'
+                            df = {
+                                'title': [],
+                                'link': []
+                            }
+                            for link in links:
+                                if (link.text):
+                                    df['title'].append(link.text)
+                                    df['link'].append(link.get('href'))
+                                    body += link.text + ' - ' + "https://www.bseindia.com" + link.get('href') + '\n'
+                            df = pd.DataFrame(df)
+                            df.to_csv('db/{}.csv'.format(row[0]), index=False)
+            except:
+                print('Error: Could not check announcements for ' + row[0])
             if hasNew:
                 body += '\n'
     if body:
